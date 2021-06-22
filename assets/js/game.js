@@ -8,7 +8,7 @@ console.log(playerName, playerAttack, playerHealth);
 
 var enemyNames = ["Roborto", "Amy Android", "Robo Trumble"]
 var enemyHealth = 50;
-var enemyAttack = 12;
+var enemyAttack = 100;
 
 var greetedUser = false
 var fightEnded = false
@@ -30,7 +30,7 @@ var fight = function(enemyName) {
         promptFight = window.prompt("Your network of battle agents have found you a fight with " + enemyName + ". Would you like to FIGHT or SKIP this battle? Enter 'FIGHT' or 'SKIP' to choose.");
     }
     if (promptFight === 'FIGHT' || promptFight == 'fight') {
-
+        window.alert('Welcom to Wobit Gladiators! Round ' + (i + 1))
         while(fightEnded === false && playerHealth > 0 && enemyHealth > 0) {
             //Subtract the value of `playerAttack` from the value of `enemyHealth` and use that result to update the value in the `enemyHealth` variable
             enemyHealth = enemyHealth - playerAttack;
@@ -73,24 +73,25 @@ var fight = function(enemyName) {
             }
         }
 
-        
-        var fightAgain = prompt('Fight again? (y/n)');
-        if (fightAgain === 'y') {
-            playerHealth = 100;
-            enemyHealth = 50;
-            fightEnded = false
-            fightAgain = null
-            fight(enemyName)
-        }
-        else {
-            enemyHealth = 50;
-            playerHealth = 100;
-            fightEnded = false
-            fightAgain = null
-            promptFight = null
-            window.alert('Well this is fun. How was your day?')
-            window.alert('Just Okay?')
-            window.alert("Sorry, I didn't mean it that way. Maybe there's another robot to fight.")
+        if (playerHealth > 0) {
+            var fightAgain = prompt('Fight again? (y/n)');
+            if (fightAgain === 'y') {
+                playerHealth = 100;
+                enemyHealth = 50;
+                fightEnded = false
+                fightAgain = null
+                fight(enemyName)
+            }
+            else {
+                enemyHealth = 50;
+                playerHealth = 100;
+                fightEnded = false
+                fightAgain = null
+                promptFight = null
+                window.alert('Well this is fun. How was your day?')
+                window.alert('Just Okay?')
+                window.alert("Sorry, I didn't mean it that way. Maybe there's another robot to fight.")
+            }
         }
         
     }
@@ -115,6 +116,11 @@ var fight = function(enemyName) {
   };
 
 for(var i = 0; i < enemyNames.length; i++) {
-    debugger;
-    fight(enemyNames[i], i);
+    if (playerHealth > 0) {
+        fight(enemyNames[i], i);
+    }  
+    else {
+        window.alert('You lost.');
+        break;
+    }
 }
