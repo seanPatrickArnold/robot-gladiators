@@ -6,7 +6,7 @@ var playerMoney = 10;
 // You can also log multiple values at once like this
 console.log(playerName, playerAttack, playerHealth);
 
-var enemyName = "Roborto";
+var enemyNames = ["Roborto", "Amy Android", "Robo Trumble"]
 var enemyHealth = 50;
 var enemyAttack = 12;
 
@@ -14,16 +14,22 @@ var greetedUser = false
 var fightEnded = false
 var promptFight = null
 
-var fight = function() {
+// Game States
+// "WIN" - Player robot has defeated all enemy-robots
+//    * Fight all enemy-robots
+//    * Defeat each enemy-robot
+// "LOSE" - Player robot's health is zero or less
+
+var fight = function(enemyName) {
     // Alert players that they are starting the round
     if (greetedUser == false) {
         window.alert("Welcome to Robot Gladiators!");
         greetedUser = true
     }
-    if (promptFight != 'FIGHT' && promptFight != 'fight') {
+    if (promptFight !== 'FIGHT' && promptFight !== 'fight') {
         promptFight = window.prompt("Your network of battle agents have found you a fight with " + enemyName + ". Would you like to FIGHT or SKIP this battle? Enter 'FIGHT' or 'SKIP' to choose.");
     }
-    if (promptFight == 'FIGHT' || promptFight == 'fight') {
+    if (promptFight === 'FIGHT' || promptFight == 'fight') {
 
  
         //Subtract the value of `playerAttack` from the value of `enemyHealth` and use that result to update the value in the `enemyHealth` variable
@@ -63,46 +69,49 @@ var fight = function() {
             window.alert(playerName + " still has " + playerHealth + " health left.");
         }
 
-        if (fightEnded == false) {
+        if (fightEnded === false) {
             window.alert('Continue the fight?');
-            fight()
+            fight(enemyName)
         }
         else {
             var fightAgain = prompt('Fight again? (y/n)');
-            if (fightAgain == 'y') {
+            if (fightAgain === 'y') {
                 playerName = window.prompt("What is your robot's name?");
                 playerHealth = 100;
-                playerAttack = 10;
-                enemyName = "Roborto";
                 enemyHealth = 50;
-                enemyAttack = 12;
+                fightEnded = false
+                fightAgain = null
+                fight(enemyName)
+            }
+            else {
+                enemyHealth = 50;
+                playerHealth = 100;
                 fightEnded = false
                 fightAgain = null
                 promptFight = null
-                fight()
-            }
-            else {
                 window.alert('Well this is fun. How was your day?')
                 window.alert('Just Okay?')
-                window.alert("Sorry, I didn't mean it that way.")
+                window.alert("Sorry, I didn't mean it that way. Maybe there's another robot to fight.")
             }
         }
     }
-    else if (promptFight == 'SKIP' || promptFight == 'skip') {
+    else if (promptFight === 'SKIP' || promptFight === 'skip') {
         var confirmSkip = window.confirm('Do you reallly want to skip the fight? I will steal money from your player money value if you do.')
         if (confirmSkip) {
             window.alert("That's okay, not every day should be a battle you know.")
             playerMoney = playerMoney - 1
             window.alert('You now have ' + playerMoney + ' money amount.')
-            fight()
+            fight(enemyName)
         }
         else {
             windows.alert("Okay let's try this again, shall we?")
-            fight()
+            fight(enemyName)
         }
     }
         
     
   };
 
-fight();
+for(var i = 0; i < enemyNames.length; i++) {
+    fight(enemyNames[i], i);
+}
